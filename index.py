@@ -7,6 +7,19 @@ import pyttsx3
 import pywhatkit
 import datetime
 import os
+import requests
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.edge.options import Options
+from time import sleep
+
+options = Options()
+# options.add_argument('--headless')
+options.add_argument('window-size=400,800')
+
+navegador = webdriver.Edge(options=options)
+
+navegador.get('https://effortless-brigadeiros-63ae6b.netlify.app/')
 audio = sr.Recognizer()
 n=1
 
@@ -42,17 +55,20 @@ class Virtual_assit():
             print('olhando para a base de dados')
             try:
                 self.voice_data = self.r.recognize_google(audio, language="pt-BR") #converte audio para texto
+                print(">>",self.voice_data.lower()) #imprime o que vc disse
+                self.voice_data = self.voice_data.lower()
+
+                return self.voice_data.lower()
 
             except sr.UnknownValueError:
                 self.engine_speak('Desculpe, eu não entendi o que você disse. Pode repetir?')
+                self.voice_data = "erro"
+                return self.voice_data
 
             except sr.RequestError:
                 self.engine_speak('Desculpe, meu servidor está inativo') # recognizer is not connected
-
-            print(">>",self.voice_data.lower()) #imprime o que vc disse
-            self.voice_data = self.voice_data.lower()
-
-            return self.voice_data.lower()
+                self.voice_data = "erro"
+                return self.voice_data
 
     def engine_speak(self, audio_strig):
         audio_strig = str(audio_strig)
@@ -113,7 +129,6 @@ class Virtual_assit():
             hora = datetime.datetime.now().strftime('%H:%M')
             self.engine_speak("Agora são " + hora )
         
-
 
 assistent = Virtual_assit('Ive', 'Valentim')
 
