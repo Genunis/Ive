@@ -7,19 +7,7 @@ import pyttsx3
 import pywhatkit
 import datetime
 import os
-import requests
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.edge.options import Options
-from time import sleep
 
-options = Options()
-# options.add_argument('--headless')
-options.add_argument('window-size=400,800')
-
-navegador = webdriver.Edge(options=options)
-
-navegador.get('https://effortless-brigadeiros-63ae6b.netlify.app/')
 audio = sr.Recognizer()
 n=1
 
